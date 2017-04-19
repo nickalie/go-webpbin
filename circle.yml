@@ -1,0 +1,7 @@
+machine:
+  services:
+    - docker
+test:
+  override:
+    - go test -v -race ./...
+    - docker build --rm=false -t test-image .
