@@ -9,6 +9,7 @@ import (
 	"image/png"
 )
 
+//decompresses WebP files into PNG
 type DWebP struct {
 	*binwrapper.BinWrapper
 	inputFile  string
