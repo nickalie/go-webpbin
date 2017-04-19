@@ -1,5 +1,12 @@
-FROM golang:alpine
-RUN apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake build-base libtool wget unzip git
+FROM resin/raspberrypi3-golang
+
+ENV QEMU_EXECVE 1
+COPY docker/qemu/resin-xbuild docker/qemu/qemu-arm-static /usr/bin/
+RUN [ "qemu-arm-static", "/bin/sh", "-c", "ln -s resin-xbuild /usr/bin/cross-build-start; ln -s resin-xbuild /usr/bin/cross-build-end; mv /bin/sh /bin/sh.real; ln -s /bin/sh.real /bin/sh" ]
+RUN [ "cross-build-start" ]
+
+RUN apt-get update && \
+    apt-get install -y libpng-dev libjpeg-dev libgif-dev libtiff-dev autoconf automake gcc g++ make unzip git-core
 
 WORKDIR /
 
@@ -20,4 +27,6 @@ RUN go get -v github.com/nickalie/go-binwrapper && \
 RUN mkdir -p $GOPATH/src/github.com/nickalie/go-webpbin
 COPY . $GOPATH/src/github.com/nickalie/go-webpbin
 WORKDIR $GOPATH/src/github.com/nickalie/go-webpbin
-RUN go test ./...
+RUN go test -v -race ./...
+
+RUN [ "cross-build-end" ]
