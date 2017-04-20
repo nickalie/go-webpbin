@@ -135,7 +135,7 @@ func (c *CWebP) Run() error {
 		Run()
 
 	if err != nil {
-		return errors.New(string(c.StdErr))
+		return errors.New(err.Error() + ". " + string(c.StdErr()))
 	}
 
 	if c.inputFile == "" {
@@ -143,7 +143,7 @@ func (c *CWebP) Run() error {
 	}
 
 	if c.output != nil {
-		b := bytes.NewReader(c.BinWrapper.StdOut)
+		b := bytes.NewReader(c.BinWrapper.StdOut())
 		_, err = io.Copy(c.output, b)
 		return err
 	}

@@ -73,14 +73,14 @@ func (c *DWebP) Run() (image.Image, error) {
 	err = c.Arg(input).Arg("-o", output).Run()
 
 	if err != nil {
-		return nil, errors.New(string(c.StdErr))
+		return nil, errors.New(err.Error() + ". " + string(c.StdErr()))
 	}
 
 	if c.output != nil {
-		_, err = io.Copy(c.output, bytes.NewReader(c.BinWrapper.StdOut))
+		_, err = io.Copy(c.output, bytes.NewReader(c.BinWrapper.StdOut()))
 		return nil, err
 	} else if c.outputFile == "" {
-		return png.Decode(bytes.NewReader(c.BinWrapper.StdOut))
+		return png.Decode(bytes.NewReader(c.BinWrapper.StdOut()))
 	}
 
 	return nil, nil
