@@ -1,10 +1,6 @@
-FROM resin/armv7hf-debian
+FROM resin/rpi-raspbian
 
-ENV QEMU_EXECVE 1
 ENV DOCKER_ARM_TEST 1
-
-COPY docker/qemu/cross-build-end docker/qemu/cross-build-start docker/qemu/qemu-arm-static docker/qemu/sh-shim /usr/bin/
-RUN [ "cross-build-start" ]
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends webp git wget
@@ -25,5 +21,3 @@ RUN mkdir -p $GOPATH/src/github.com/nickalie/go-webpbin
 COPY . $GOPATH/src/github.com/nickalie/go-webpbin
 WORKDIR $GOPATH/src/github.com/nickalie/go-webpbin
 RUN go test -v ./...
-
-RUN [ "cross-build-end" ]
