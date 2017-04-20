@@ -2,9 +2,6 @@ machine:
   services:
     - docker
 test:
-  pre:
-    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   override:
     - go test -v -race ./...
     - docker build -f docker/Dockerfile --rm=false -t test-alpine-image .
-    - docker build -f docker/Dockerfile.arm --rm=false -t test-arm-image .
