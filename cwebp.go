@@ -106,7 +106,7 @@ func (c *CWebP) Crop(x, y, width, height int) *CWebP {
 	return c
 }
 
-//Runs compression
+//Runs encoder
 func (c *CWebP) Run() error {
 	defer c.BinWrapper.Reset()
 
