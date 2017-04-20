@@ -1,5 +1,5 @@
 FROM golang:alpine
-RUN apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake build-base libtool wget unzip git
+RUN apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make gcc g++ wget git
 
 WORKDIR /
 

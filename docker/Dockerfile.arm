@@ -1,24 +1,21 @@
-FROM resin/raspberrypi3-golang
+FROM resin/armv7hf-debian
 
 ENV QEMU_EXECVE 1
-COPY docker/qemu/resin-xbuild docker/qemu/qemu-arm-static /usr/bin/
-RUN [ "qemu-arm-static", "/bin/sh", "-c", "ln -s resin-xbuild /usr/bin/cross-build-start; ln -s resin-xbuild /usr/bin/cross-build-end; mv /bin/sh /bin/sh.real; ln -s /bin/sh.real /bin/sh" ]
+ENV DOCKER_ARM_TEST 1
+
+COPY docker/qemu/cross-build-end docker/qemu/cross-build-start docker/qemu/qemu-arm-static docker/qemu/sh-shim /usr/bin/
 RUN [ "cross-build-start" ]
 
 RUN apt-get update && \
-    apt-get install -y libpng-dev libjpeg-dev libgif-dev libtiff-dev autoconf automake gcc g++ make unzip git-core
+    apt-get install -y --no-install-recommends webp git wget
 
-WORKDIR /
+RUN wget https://storage.googleapis.com/golang/go1.8.1.linux-armv6l.tar.gz && \
+	tar -C /usr/local -xzf go1.8.1.linux-armv6l.tar.gz && \
+	rm go1.8.1.linux-armv6l.tar.gz && \
+	mkdir /go
 
-RUN wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-0.6.0.tar.gz && \
-	tar -xvzf libwebp-0.6.0.tar.gz && \
-	mv libwebp-0.6.0 libwebp && \
-	rm libwebp-0.6.0.tar.gz && \
-    cd /libwebp && \
-	./configure && \
-	make && \
-	make install && \
-	rm -rf libwebp
+ENV PATH=$PATH:/usr/local/go/bin
+ENV GOPATH=/go
 
 RUN go get -v github.com/nickalie/go-binwrapper && \
     go get -v github.com/stretchr/testify/assert && \

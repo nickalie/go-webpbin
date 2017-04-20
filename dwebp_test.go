@@ -12,7 +12,9 @@ func TestVersionDWebP(t *testing.T) {
 	c := NewDWebP()
 	r, err := c.Version()
 	assert.Nil(t, err)
-	assert.Equal(t, "0.6.0", r)
+	if _, ok := os.LookupEnv("DOCKER_ARM_TEST"); !ok {
+		assert.Equal(t, "0.6.0", r)
+	}
 }
 
 func TestDecodeReader(t *testing.T) {

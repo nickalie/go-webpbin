@@ -8,7 +8,6 @@ import (
 	"io"
 	"strings"
 	"runtime"
-	"os/exec"
 	"bytes"
 )
 
@@ -22,8 +21,7 @@ func DetectUnsupportedPlatforms()  {
 	if runtime.GOARCH == "arm" {
 		SkipDownload()
 	} else if runtime.GOOS == "linux" {
-		cmd := exec.Command("cat", "/etc/issue")
-		output, err := cmd.CombinedOutput()
+		output, err := ioutil.ReadFile("/etc/issue")
 
 		if err == nil && bytes.Contains(bytes.ToLower(output), []byte("alpine")) {
 			SkipDownload()
