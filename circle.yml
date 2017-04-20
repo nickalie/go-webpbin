@@ -3,10 +3,7 @@ machine:
     - docker
 test:
   pre:
-    - chmod +x docker/qemu/cross-build-start
-    - chmod +x docker/qemu/cross-build-end
-    - chmod +x docker/qemu/qemu-arm-static
-    - chmod +x docker/qemu/sh-shim
+    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   override:
     - go test -v -race ./...
     - docker build -f docker/Dockerfile --rm=false -t test-alpine-image .
