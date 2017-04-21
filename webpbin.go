@@ -93,25 +93,19 @@ func createFileFromReader(reader io.Reader) (string, error) {
 	return file.Name(), nil
 }
 
-func createFileFromImage(img image.Image) (string, error) {
-	file, err := ioutil.TempFile("", "gocwebpbin")
-
-	if err != nil {
-		return "", err
-	}
-
-	defer file.Close()
-
+func createReaderFromImage(img image.Image) (io.Reader, error) {
 	enc := &png.Encoder{
 		CompressionLevel: png.NoCompression,
 	}
-	err = enc.Encode(file, img)
+
+	var buffer bytes.Buffer
+	err := enc.Encode(&buffer, img)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return file.Name(), nil
+	return &buffer, nil
 }
 
 func version(b *binwrapper.BinWrapper) (string, error) {

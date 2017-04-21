@@ -4,7 +4,6 @@ import (
 	"github.com/nickalie/go-binwrapper"
 	"io"
 	"errors"
-	"os"
 	"image"
 	"fmt"
 	"bytes"
@@ -118,28 +117,24 @@ func (c *CWebP) Run() error {
 		c.Arg("-crop", fmt.Sprintf("%d", c.crop.x), fmt.Sprintf("%d", c.crop.y), fmt.Sprintf("%d", c.crop.width), fmt.Sprintf("%d", c.crop.height))
 	}
 
-	input, err := c.getInput()
-
-	if err != nil {
-		return err
-	}
-
 	output, err := c.getOutput()
 
 	if err != nil {
 		return err
 	}
 
-	err = c.Arg(input).
-		Arg("-o", output).
-		Run()
+	c.Arg("-o", output)
+
+	err = c.setInput()
+
+	if err != nil {
+		return err
+	}
+
+	err = c.BinWrapper.Run()
 
 	if err != nil {
 		return errors.New(err.Error() + ". " + string(c.StdErr()))
-	}
-
-	if c.inputFile == "" {
-		os.Remove(input)
 	}
 
 	if c.output != nil {
@@ -158,17 +153,26 @@ func (c *CWebP) Reset() *CWebP {
 	return c
 }
 
-func (c *CWebP) getInput() (string, error) {
+func (c *CWebP) setInput() error {
 	if c.input != nil {
-		return createFileFromReader(c.input)
-
+		c.Arg("--").Arg("-")
+		c.StdIn(c.input)
 	} else if c.inputImage != nil {
-		return createFileFromImage(c.inputImage)
+		r, err := createReaderFromImage(c.inputImage)
+
+		if err != nil {
+			return err
+		}
+
+		c.Arg("--").Arg("-")
+		c.StdIn(r)
 	} else if c.inputFile != "" {
-		return c.inputFile, nil
+		c.Arg(c.inputFile)
 	} else {
-		return "", errors.New("Undefined input")
+		return errors.New("Undefined input")
 	}
+
+	return nil
 }
 
 func (c *CWebP) getOutput() (string, error) {
