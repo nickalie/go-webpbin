@@ -6,7 +6,6 @@ import (
 	"errors"
 	"image"
 	"fmt"
-	"bytes"
 )
 
 type cropInfo struct {
@@ -131,16 +130,14 @@ func (c *CWebP) Run() error {
 		return err
 	}
 
+	if c.output != nil {
+		c.SetStdOut(c.output)
+	}
+
 	err = c.BinWrapper.Run()
 
 	if err != nil {
 		return errors.New(err.Error() + ". " + string(c.StdErr()))
-	}
-
-	if c.output != nil {
-		b := bytes.NewReader(c.BinWrapper.StdOut())
-		_, err = io.Copy(c.output, b)
-		return err
 	}
 
 	return nil

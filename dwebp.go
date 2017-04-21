@@ -72,16 +72,17 @@ func (c *DWebP) Run() (image.Image, error) {
 		return nil, err
 	}
 
+	if c.output != nil {
+		c.SetStdOut(c.output)
+	}
+
 	err = c.BinWrapper.Run()
 
 	if err != nil {
 		return nil, errors.New(err.Error() + ". " + string(c.StdErr()))
 	}
 
-	if c.output != nil {
-		_, err = io.Copy(c.output, bytes.NewReader(c.BinWrapper.StdOut()))
-		return nil, err
-	} else if c.outputFile == "" {
+	if c.output == nil && c.outputFile == "" {
 		return png.Decode(bytes.NewReader(c.BinWrapper.StdOut()))
 	}
 
