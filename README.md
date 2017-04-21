@@ -69,7 +69,7 @@ err := webpbin.NewCWebP().
 		Run()
 ```
 
-## CWebP
+## DWebP
 
 DWebP is a wrapper for *dwebp* command line tool.
 
