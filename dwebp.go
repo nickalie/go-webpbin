@@ -58,19 +58,21 @@ func (c *DWebP) Version() (string, error) {
 func (c *DWebP) Run() (image.Image, error) {
 	defer c.BinWrapper.Reset()
 
-	input, err := c.getInput()
-
-	if err != nil {
-		return nil, err
-	}
-
 	output, err := c.getOutput()
 
 	if err != nil {
 		return nil, err
 	}
 
-	err = c.Arg(input).Arg("-o", output).Run()
+	c.Arg("-o", output)
+
+	err = c.setInput()
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = c.BinWrapper.Run()
 
 	if err != nil {
 		return nil, errors.New(err.Error() + ". " + string(c.StdErr()))
@@ -86,15 +88,17 @@ func (c *DWebP) Run() (image.Image, error) {
 	return nil, nil
 }
 
-func (c *DWebP) getInput() (string, error) {
+func (c *DWebP) setInput() error {
 	if c.input != nil {
-		return createFileFromReader(c.input)
-
+		c.Arg("--").Arg("-")
+		c.StdIn(c.input)
 	} else if c.inputFile != "" {
-		return c.inputFile, nil
+		c.Arg(c.inputFile)
 	} else {
-		return "", errors.New("Undefined input")
+		return errors.New("Undefined input")
 	}
+
+	return nil
 }
 
 func (c *DWebP) getOutput() (string, error) {

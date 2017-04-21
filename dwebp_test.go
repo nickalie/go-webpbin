@@ -81,5 +81,4 @@ func validatePng(t *testing.T) {
 	imgTarget, err := png.Decode(fTarget)
 	assert.Nil(t, err)
 	assert.Equal(t, imgSource.Bounds(), imgTarget.Bounds())
-
 }

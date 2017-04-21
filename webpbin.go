@@ -75,24 +75,6 @@ func createBinWrapper() *binwrapper.BinWrapper {
 	return b.Strip(2).Dest(dest)
 }
 
-func createFileFromReader(reader io.Reader) (string, error) {
-	file, err := ioutil.TempFile("", "gocwebpbin")
-
-	if err != nil {
-		return "", err
-	}
-
-	defer file.Close()
-
-	_, err = io.Copy(file, reader)
-
-	if err != nil {
-		return "", err
-	}
-
-	return file.Name(), nil
-}
-
 func createReaderFromImage(img image.Image) (io.Reader, error) {
 	enc := &png.Encoder{
 		CompressionLevel: png.NoCompression,
