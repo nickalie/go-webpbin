@@ -10,7 +10,7 @@ jobs:
       - run: go test -v -coverprofile=coverage.txt -covermode=atomic ./...
       - run: curl -s https://codecov.io/bash | bash
       - run: |
-          curl -u ${CIRCLE_API_TOKEN}: -d build_parameters[CIRCLE_JOB]=build_alpine https://circleci.com/api/v1.1/project/nickalie/go-webpbin/tree/master
+          curl -u ${CIRCLE_API_TOKEN}: -d build_parameters[CIRCLE_JOB]=build_alpine https://circleci.com/api/v1.1/project/github/nickalie/go-webpbin/tree/master
   build_alpine:
     working_directory: /go/src/github/nickalie/go-webpbin
     docker:
