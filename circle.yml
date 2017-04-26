@@ -1,8 +1,0 @@
-machine:
-  services:
-    - docker
-test:
-  override:
-    - go test -v -race ./...
-    - docker build -f docker/Dockerfile --rm=false -t test-libwebp-image .
-    - docker build -f docker/Dockerfile.alpine --rm=false -t test-libwebp-alpine-image .

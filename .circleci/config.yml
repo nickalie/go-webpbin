@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github/nickalie/go-webpbin
+    docker:
+      - image: golang
+    steps:
+      - checkout
+      - run: go get -t -v ./...
+      - run: go test -v -coverprofile=coverage.txt -covermode=atomic ./...
+      - run: curl -s https://codecov.io/bash | bash

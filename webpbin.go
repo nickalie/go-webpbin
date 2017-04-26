@@ -1,14 +1,14 @@
 package webpbin
 
 import (
+	"bytes"
+	"github.com/nickalie/go-binwrapper"
 	"image"
 	"image/png"
-	"github.com/nickalie/go-binwrapper"
-	"io/ioutil"
 	"io"
-	"strings"
+	"io/ioutil"
 	"runtime"
-	"bytes"
+	"strings"
 )
 
 var skipDownload bool
@@ -17,7 +17,7 @@ var dest string = "vendor/webp"
 //Detects platforms without prebuilt binaries (alpine and arm).
 //For this platforms libwebp tools should be built manually.
 //See https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile and https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile.arm for details
-func DetectUnsupportedPlatforms()  {
+func DetectUnsupportedPlatforms() {
 	if runtime.GOARCH == "arm" {
 		SkipDownload()
 	} else if runtime.GOOS == "linux" {
@@ -48,28 +48,28 @@ func createBinWrapper() *binwrapper.BinWrapper {
 	if !skipDownload {
 		b.Src(
 			binwrapper.NewSrc().
-				Url(base + "libwebp-0.6.0-mac-10.12.tar.gz").
+				URL(base + "libwebp-0.6.0-mac-10.12.tar.gz").
 				Os("darwin")).
 			Src(
-			binwrapper.NewSrc().
-				Url(base + "libwebp-0.6.0-linux-x86-32.tar.gz").
-				Os("linux").
-				Arch("x86")).
+				binwrapper.NewSrc().
+					URL(base + "libwebp-0.6.0-linux-x86-32.tar.gz").
+					Os("linux").
+					Arch("x86")).
 			Src(
-			binwrapper.NewSrc().
-				Url(base + "libwebp-0.6.0-linux-x86-64.tar.gz").
-				Os("linux").
-				Arch("x64")).
+				binwrapper.NewSrc().
+					URL(base + "libwebp-0.6.0-linux-x86-64.tar.gz").
+					Os("linux").
+					Arch("x64")).
 			Src(
-			binwrapper.NewSrc().
-				Url(base + "libwebp-0.6.0-windows-x64.zip").
-				Os("win32").
-				Arch("x64")).
+				binwrapper.NewSrc().
+					URL(base + "libwebp-0.6.0-windows-x64.zip").
+					Os("win32").
+					Arch("x64")).
 			Src(
-			binwrapper.NewSrc().
-				Url(base + "libwebp-0.6.0-windows-x86.zip").
-				Os("win32").
-				Arch("x86"))
+				binwrapper.NewSrc().
+					URL(base + "libwebp-0.6.0-windows-x86.zip").
+					Os("win32").
+					Arch("x86"))
 	}
 
 	return b.Strip(2).Dest(dest)
