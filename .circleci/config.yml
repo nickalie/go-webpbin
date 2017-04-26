@@ -10,22 +10,22 @@ jobs:
       - run: go test -v -coverprofile=coverage.txt -covermode=atomic ./...
       - run: curl -s https://codecov.io/bash | bash
   build_alpine:
-     working_directory: /go/src/github/nickalie/go-webpbin
-     docker:
-       - image: golang:alpine
-     steps:
-       - run: apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make g++ wget git
-       - run: |
-          wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-0.6.0.tar.gz
-          tar -xvzf libwebp-0.6.0.tar.gz
-          mv libwebp-0.6.0 libwebp
-          rm libwebp-0.6.0.tar.gz
-          cd /libwebp
-          ./configure
-          make
-          make install
-          cd ..
-          rm -rf libwebp
-       - checkout
-       - run: go get -t -v ./...
-       - run: go test -v -coverprofile=coverage.txt -covermode=atomic ./...
+    working_directory: /go/src/github/nickalie/go-webpbin
+    docker:
+     - image: golang:alpine
+    steps:
+     - run: apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make g++ wget git
+     - run: |
+        wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-0.6.0.tar.gz
+        tar -xvzf libwebp-0.6.0.tar.gz
+        mv libwebp-0.6.0 libwebp
+        rm libwebp-0.6.0.tar.gz
+        cd /libwebp
+        ./configure
+        make
+        make install
+        cd ..
+        rm -rf libwebp
+     - checkout
+     - run: go get -t -v ./...
+     - run: go test -v -coverprofile=coverage.txt -covermode=atomic ./...
