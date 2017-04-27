@@ -1,15 +1,16 @@
 package webpbin
 
 import (
-	"github.com/nickalie/go-binwrapper"
-	"io"
-	"image"
-	"errors"
 	"bytes"
+	"errors"
+	"github.com/nickalie/go-binwrapper"
+	"image"
 	"image/png"
+	"io"
 )
 
-//decompresses WebP files into PNG
+// DWebP wraps dwebp tool used for decompression of WebP files into PNG.
+// https://developers.google.com/speed/webp/docs/dwebp
 type DWebP struct {
 	*binwrapper.BinWrapper
 	inputFile  string
@@ -18,6 +19,7 @@ type DWebP struct {
 	output     io.Writer
 }
 
+// NewDWebP creates new WebP instance
 func NewDWebP() *DWebP {
 	bin := &DWebP{
 		BinWrapper: createBinWrapper(),
@@ -27,34 +29,44 @@ func NewDWebP() *DWebP {
 	return bin
 }
 
+// InputFile Sets webp file to convert.
+// Input or InputImage called before will be ignored.
 func (c *DWebP) InputFile(file string) *DWebP {
 	c.input = nil
 	c.inputFile = file
 	return c
 }
 
+// Input Sets reader to convert.
+// InputFile or InputImage called before will be ignored.
 func (c *DWebP) Input(reader io.Reader) *DWebP {
 	c.inputFile = ""
 	c.input = reader
 	return c
 }
 
+// OutputFile specify the name of the output image file.
+// Output called before will be ignored.
 func (c *DWebP) OutputFile(file string) *DWebP {
 	c.output = nil
 	c.outputFile = file
 	return c
 }
 
+// Output specify writer to write image file content.
+// OutputFile called before will be ignored.
 func (c *DWebP) Output(writer io.Writer) *DWebP {
 	c.outputFile = ""
 	c.output = writer
 	return c
 }
 
+// Version returns dwebp's version.
 func (c *DWebP) Version() (string, error) {
 	return version(c.BinWrapper)
 }
 
+// Run starts the decoder
 func (c *DWebP) Run() (image.Image, error) {
 	defer c.BinWrapper.Reset()
 
@@ -105,7 +117,7 @@ func (c *DWebP) setInput() error {
 func (c *DWebP) getOutput() (string, error) {
 	if c.outputFile != "" {
 		return c.outputFile, nil
-	} else {
-		return "-", nil
 	}
+
+	return "-", nil
 }

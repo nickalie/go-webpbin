@@ -5,6 +5,7 @@ import (
 	"io"
 )
 
+// Encoder encodes image.Image into webp.
 type Encoder struct {
 	//Specify the compression factor for RGB channels between 0 and 100. The default is 75.
 	//
@@ -12,7 +13,7 @@ type Encoder struct {
 	Quality uint
 }
 
-//Writes the Image m to w in WebP format. Any Image may be encoded
+// Encode writes the Image m to w in WebP format. Any Image may be encoded.
 func (e *Encoder) Encode(w io.Writer, m image.Image) error {
 	return NewCWebP().
 		Quality(e.Quality).
@@ -22,7 +23,7 @@ func (e *Encoder) Encode(w io.Writer, m image.Image) error {
 
 }
 
-//Writes the Image m to w in WebP format. Any Image may be encoded
+//Encode writes the Image m to w in WebP format. Any Image may be encoded.
 func Encode(w io.Writer, m image.Image) error {
 	e := &Encoder{Quality: 75}
 	return e.Encode(w, m)

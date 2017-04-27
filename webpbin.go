@@ -12,11 +12,11 @@ import (
 )
 
 var skipDownload bool
-var dest string = "vendor/webp"
+var dest = "vendor/webp"
 
-//Detects platforms without prebuilt binaries (alpine and arm).
-//For this platforms libwebp tools should be built manually.
-//See https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile and https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile.arm for details
+// DetectUnsupportedPlatforms detects platforms without prebuilt binaries (alpine and arm).
+// For this platforms libwebp tools should be built manually.
+// See https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile and https://github.com/nickalie/go-webpbin/blob/master/docker/Dockerfile.arm for details
 func DetectUnsupportedPlatforms() {
 	if runtime.GOARCH == "arm" {
 		SkipDownload()
@@ -29,13 +29,13 @@ func DetectUnsupportedPlatforms() {
 	}
 }
 
-//Skips binary download.
+// SkipDownload skips binary download.
 func SkipDownload() {
 	skipDownload = true
 	dest = ""
 }
 
-//Sets directory to download libwebp binaries or where to look for them if SkipDownload is used.
+// Dest sets directory to download libwebp binaries or where to look for them if SkipDownload is used.
 func Dest(value string) {
 	dest = value
 }
