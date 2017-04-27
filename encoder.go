@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-// Encoder encodes image.Image into webp.
+// Encoder encodes image.Image into webp using cwebp.
 type Encoder struct {
 	//Specify the compression factor for RGB channels between 0 and 100. The default is 75.
 	//

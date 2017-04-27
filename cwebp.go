@@ -39,12 +39,12 @@ func NewCWebP() *CWebP {
 	return bin
 }
 
-// Version returns cwebp's version.
+// Version returns cwebp version.
 func (c *CWebP) Version() (string, error) {
 	return version(c.BinWrapper)
 }
 
-// InputFile Sets image file to convert.
+// InputFile sets image file to convert.
 // Input or InputImage called before will be ignored.
 func (c *CWebP) InputFile(file string) *CWebP {
 	c.input = nil
@@ -53,7 +53,7 @@ func (c *CWebP) InputFile(file string) *CWebP {
 	return c
 }
 
-// Input Sets reader to convert.
+// Input sets reader to convert.
 // InputFile or InputImage called before will be ignored.
 func (c *CWebP) Input(reader io.Reader) *CWebP {
 	c.inputFile = ""
@@ -105,7 +105,7 @@ func (c *CWebP) Crop(x, y, width, height int) *CWebP {
 	return c
 }
 
-// Run starts the encoder
+// Run starts cwebp with specified parameters.
 func (c *CWebP) Run() error {
 	defer c.BinWrapper.Reset()
 

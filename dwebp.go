@@ -29,7 +29,7 @@ func NewDWebP() *DWebP {
 	return bin
 }
 
-// InputFile Sets webp file to convert.
+// InputFile sets webp file to convert.
 // Input or InputImage called before will be ignored.
 func (c *DWebP) InputFile(file string) *DWebP {
 	c.input = nil
@@ -37,7 +37,7 @@ func (c *DWebP) InputFile(file string) *DWebP {
 	return c
 }
 
-// Input Sets reader to convert.
+// Input sets reader to convert.
 // InputFile or InputImage called before will be ignored.
 func (c *DWebP) Input(reader io.Reader) *DWebP {
 	c.inputFile = ""
@@ -61,12 +61,12 @@ func (c *DWebP) Output(writer io.Writer) *DWebP {
 	return c
 }
 
-// Version returns dwebp's version.
+// Version returns dwebp version.
 func (c *DWebP) Version() (string, error) {
 	return version(c.BinWrapper)
 }
 
-// Run starts the decoder
+// Run starts dwebp with specified parameters.
 func (c *DWebP) Run() (image.Image, error) {
 	defer c.BinWrapper.Reset()
 

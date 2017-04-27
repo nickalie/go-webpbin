@@ -35,7 +35,7 @@ func SkipDownload() {
 	dest = ""
 }
 
-// Dest sets directory to download libwebp binaries or where to look for them if SkipDownload is used.
+// Dest sets directory to download libwebp binaries or where to look for them if SkipDownload is used. Default is "vendor/webp"
 func Dest(value string) {
 	dest = value
 }
