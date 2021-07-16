@@ -3,10 +3,11 @@ package webpbin
 import (
 	"bytes"
 	"errors"
-	"github.com/nickalie/go-binwrapper"
 	"image"
 	"image/png"
 	"io"
+
+	"github.com/nickalie/go-binwrapper"
 )
 
 // DWebP wraps dwebp tool used for decompression of WebP files into PNG.
@@ -20,9 +21,9 @@ type DWebP struct {
 }
 
 // NewDWebP creates new WebP instance
-func NewDWebP() *DWebP {
+func NewDWebP(optionFuncs ...OptionFunc) *DWebP {
 	bin := &DWebP{
-		BinWrapper: createBinWrapper(),
+		BinWrapper: createBinWrapper(optionFuncs...),
 	}
 	bin.ExecPath("dwebp")
 
