@@ -3,9 +3,10 @@ package webpbin
 import (
 	"errors"
 	"fmt"
-	"github.com/nickalie/go-binwrapper"
 	"image"
 	"io"
+
+	"github.com/nickalie/go-binwrapper"
 )
 
 type cropInfo struct {
@@ -29,9 +30,9 @@ type CWebP struct {
 }
 
 // NewCWebP creates new CWebP instance.
-func NewCWebP() *CWebP {
+func NewCWebP(optionFuncs ...OptionFunc) *CWebP {
 	bin := &CWebP{
-		BinWrapper: createBinWrapper(),
+		BinWrapper: createBinWrapper(optionFuncs...),
 		quality:    -1,
 	}
 	bin.ExecPath("cwebp")
