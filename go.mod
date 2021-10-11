@@ -1,4 +1,4 @@
-module github.com/CapsLock-Studio/go-webpbin
+module github.com/nickalie/go-webpbin
 
 go 1.14
 
