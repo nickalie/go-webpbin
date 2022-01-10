@@ -21,7 +21,7 @@ All env can be override with option functions.
 
 ## Example of usage
 
-```
+```go
 package main
 
 import (
@@ -71,7 +71,7 @@ CWebP is a wrapper for *cwebp* command line tool.
 
 Example to convert image.png to image.webp:
 
-```
+```go
 err := webpbin.NewCWebP().
 		Quality(80).
 		InputFile("image.png").
@@ -85,7 +85,7 @@ DWebP is a wrapper for *dwebp* command line tool.
 
 Example to convert image.webp to image.png:
 
-```
+```go
 err := webpbin.NewDWebP().
 		InputFile("image.webp").
 		OutputFile("image.png").
@@ -98,7 +98,7 @@ Under the hood library uses [official libwebp distribution](https://storage.goog
 
 Snippet to build libweb on alpine:
 
-```
+```sh
 apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make gcc g++ wget
 
 wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-0.6.0.tar.gz && \
