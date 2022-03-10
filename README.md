@@ -105,7 +105,7 @@ wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libw
 tar -xvzf libwebp-0.6.0.tar.gz && \
 mv libwebp-0.6.0 libwebp && \
 rm libwebp-0.6.0.tar.gz && \
-cd /libwebp && \
+cd libwebp && \
 ./configure && \
 make && \
 make install && \
