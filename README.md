@@ -94,7 +94,7 @@ err := webpbin.NewDWebP().
 
 ## libwebp distribution
 
-Under the hood library uses [official libwebp distribution](https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html), so if you're going to use it on not supported platform (arm or alpine), you need to build libwebp from sources and set ```SKIP_DOWNLOAD=true```.
+Under the hood library uses [official libwebp distribution](https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html), so if you're going to use it on not supported platform (arm or alpine), you need to build libwebp from sources and set ```SKIP_DOWNLOAD=true``` and  `VENDOR_PATH=/usr/local/bin/`.
 
 Snippet to build libweb on alpine:
 
