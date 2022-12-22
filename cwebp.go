@@ -16,6 +16,11 @@ type cropInfo struct {
 	height int
 }
 
+type resizeInfo struct {
+	width  int
+	height int
+}
+
 // CWebP compresses an image using the WebP format. Input format can be either PNG, JPEG, TIFF, WebP or raw Y'CbCr samples.
 // https://developers.google.com/speed/webp/docs/cwebp
 type CWebP struct {
@@ -27,6 +32,7 @@ type CWebP struct {
 	output     io.Writer
 	quality    int
 	crop       *cropInfo
+	resize     *resizeInfo
 }
 
 // NewCWebP creates new CWebP instance.
@@ -106,6 +112,12 @@ func (c *CWebP) Crop(x, y, width, height int) *CWebP {
 	return c
 }
 
+// Resize the source to a rectangle with size width x height. If either (but not both) of the width or height parameters is 0, the value will be calculated preserving the aspect-ratio. Note: scaling is applied after cropping.
+func (c *CWebP) Resize(width, height int) *CWebP {
+	c.resize = &resizeInfo{width, height}
+	return c
+}
+
 // Run starts cwebp with specified parameters.
 func (c *CWebP) Run() error {
 	defer c.BinWrapper.Reset()
@@ -116,6 +128,10 @@ func (c *CWebP) Run() error {
 
 	if c.crop != nil {
 		c.Arg("-crop", fmt.Sprintf("%d", c.crop.x), fmt.Sprintf("%d", c.crop.y), fmt.Sprintf("%d", c.crop.width), fmt.Sprintf("%d", c.crop.height))
+	}
+
+	if c.resize != nil {
+		c.Arg("-resize", fmt.Sprintf("%d", c.resize.width), fmt.Sprintf("%d", c.resize.height))
 	}
 
 	output, err := c.getOutput()
@@ -148,6 +164,7 @@ func (c *CWebP) Run() error {
 // Reset all parameters to default values
 func (c *CWebP) Reset() *CWebP {
 	c.crop = nil
+	c.resize = nil
 	c.quality = -1
 	return c
 }
