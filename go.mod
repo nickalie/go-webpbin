@@ -1,11 +1,11 @@
 module github.com/nickalie/go-webpbin
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/nickalie/go-binwrapper v0.0.0-20260217210625-2cc2a03abe15
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/image v0.36.0
+	golang.org/x/image v0.38.0
 )
 
 require (
